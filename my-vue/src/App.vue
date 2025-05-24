@@ -5,9 +5,18 @@
     <food-item v-for="x in foods" :key="x.name" :food-name="x.name" :food-desc="x.desc" :is-favorite="x.favorite"
       @toggle-favorite="receiveEmit" />
   </div>
+
+  <div>
+    <button @click="changeCountry">Change Country</button>
+    <KeepAlive include="CompIndonesia">
+      <component :is="activeComponent"></component>
+    </KeepAlive>
+  </div>
 </template>
 
 <script>
+import { KeepAlive } from 'vue';
+
 export default {
   data() {
     return {
@@ -37,8 +46,18 @@ export default {
           desc: 'Cake is something sweet that tastes good.',
           favorite: false
         },
-      ]
+      ],
+      country: 'Indonesia'
     };
+  },
+  computed: {
+    activeComponent() {
+      if (this.country === 'Indonesia') {
+        return 'indonesia'
+      } else {
+        return 'malaysia'
+      }
+    }
   },
   methods: {
     receiveEmit(foodName) {
@@ -48,6 +67,13 @@ export default {
         food.favorite = !food.favorite
       }
     },
+    changeCountry() {
+      if (this.country === 'Indonesia') {
+        this.country = 'Malaysia'
+      } else {
+        this.country = 'Indonesia'
+      }
+    }
   }
 }
 </script>
