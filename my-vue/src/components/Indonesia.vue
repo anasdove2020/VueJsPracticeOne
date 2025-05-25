@@ -15,6 +15,11 @@ export default {
         return {
             nama: ''
         }
+    },
+    activated() {
+        debugger
+    }, deactivated() {
+        debugger
     }
 }
 </script>

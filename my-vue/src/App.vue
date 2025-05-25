@@ -1,58 +1,30 @@
 <template>
-  <h1>Food</h1>
-  <p>Food items are generated with v-for from the 'foods' array.</p>
-  <div id="wrapper">
-    <food-item v-for="x in foods" :key="x.name" :food-name="x.name" :food-desc="x.desc" :is-favorite="x.favorite"
-      @toggle-favorite="receiveEmit" />
-  </div>
+  <h1>Before Created</h1>
+  <p v-if="tampilNama">{{ namaDepan }}</p>
 
-  <div>
-    <button @click="changeCountry">Change Country</button>
-    <KeepAlive include="CompIndonesia">
-      <component :is="activeComponent"></component>
-    </KeepAlive>
-  </div>
+  <button @click="ubahNama">Ubah Nama</button>
+  <button @click="this.tampilNama = !this.tampilNama">Hapus Nama</button>
+
+  <warna v-if="tampilNama"></warna>
+  <button @click="ubahNegara">Ubah Negara</button>
+  <KeepAlive>
+    <indonesia v-if="tampilNama"></indonesia>
+  </KeepAlive>
 </template>
 
 <script>
-import { KeepAlive } from 'vue';
+import { KeepAlive } from 'vue'
 
 export default {
   data() {
     return {
-      foods: [
-        {
-          name: 'Apples',
-          desc: 'Apples are a type of fruit that grow on trees.',
-          favorite: true
-        },
-        {
-          name: 'Pizza',
-          desc: 'Pizza has a bread base with tomato sauce, cheese, and toppings on top.',
-          favorite: false
-        },
-        {
-          name: 'Rice',
-          desc: 'Rice is a type of grain that people like to eat.',
-          favorite: false
-        },
-        {
-          name: 'Fish',
-          desc: 'Fish is an animal that lives in water.',
-          favorite: true
-        },
-        {
-          name: 'Cake',
-          desc: 'Cake is something sweet that tastes good.',
-          favorite: false
-        },
-      ],
-      country: 'Indonesia'
-    };
+      namaDepan: 'Choirul Anas',
+      tampilNama: true
+    }
   },
   computed: {
     activeComponent() {
-      if (this.country === 'Indonesia') {
+      if (this.namaDepan === 'Choirul Anas') {
         return 'indonesia'
       } else {
         return 'malaysia'
@@ -60,20 +32,67 @@ export default {
     }
   },
   methods: {
-    receiveEmit(foodName) {
-      let food = this.foods.find(fi => fi.name === foodName)
-
-      if (food) {
-        food.favorite = !food.favorite
+    ubahNama() {
+      if (this.namaDepan === 'Choirul Anas') {
+        this.namaDepan = 'Daffa Dzaki Wardana'
+      } else {
+        this.namaDepan = 'Choirul Anas'
       }
     },
-    changeCountry() {
-      if (this.country === 'Indonesia') {
-        this.country = 'Malaysia'
-      } else {
-        this.country = 'Indonesia'
-      }
+    hapusNama() {
+      this.tampilNama = !this.tampilNama
+    },
+    ubahNegara() {
+      this
     }
+  },
+  beforeCreate() {
+    console.log('Ini sebelum create di initialized.')
+    console.log('Digunakan utk setup global event listener')
+    debugger
+  },
+  created() {
+    console.log('Setelah di initialized')
+    console.log('Cocok digunakan utk fetch HTTP')
+    debugger
+  },
+  beforeMount() {
+    console.log('Sebelum di mount / dimuat di DOM Element')
+    debugger
+  },
+  mounted() {
+    console.log('Setelah di mounted / dimuat di DOM Element')
+    debugger
+  },
+  beforeUpdate() {
+    console.log('Sebelum data berubah')
+    debugger
+  },
+  updated() {
+    console.log('Setelah data berubah / re-render')
+    debugger
+  },
+  beforeUnmount() {
+    console.log('Sebelum component di hapus')
+    debugger
+  },
+  unmounted() {
+    console.log('Setelah component di hapus')
+    debugger
+  },
+  errorCaptured(err, compInst, info) {
+    console.log('Kesalahan ditemukan')
+    debugger
+  },
+  renderTracked(event) {
+    console.log('Track di render')
+    console.log(event)
+    debugger
+  },
+  renderTriggered(event) {
+    console.log('Render ke trigger')
+    console.log(event)
+    debugger
   }
 }
 </script>
